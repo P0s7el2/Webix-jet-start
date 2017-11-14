@@ -9,7 +9,7 @@ export default class DataView extends JetView{
 	init(view){
 		$$("countriesTable").sync(datacountries);
 		$$("StatusesTable").sync(datastatuses);
-		$$("countriesForm").bind($$("countriesTable"));
+		$$("countriesForm").bind($$("countriesTable")); //не работает
 	}
 }
 
@@ -99,4 +99,5 @@ function deleteitem(){
 			var sel = $$("countriesTable").getSelectedId();
           	if(sel)
           	datacountries.remove(sel);
+};
 };
