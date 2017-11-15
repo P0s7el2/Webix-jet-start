@@ -1,18 +1,23 @@
 import {JetView} from "webix-jet";
 import {datacountries} from "models/records";
 import {datastatuses} from "models/records";
+import {DataViewForm} from "./DataViewForm";
 
 export default class DataView extends JetView{
+
+
 	config(){
 		return datalayout ;
 	}
 	init(view){
 		$$("countriesTable").sync(datacountries);
+				//$$("countriesForm").bind($$("countriesTable")); //не работает
 		$$("StatusesTable").sync(datastatuses);
-		$$("countriesForm").bind($$("countriesTable")); //не работает
+		this.app.callEvent("do.update.form");
+
+		})
 	}
 }
-
 
 var dataMenu = { 
   css:"menu",
@@ -43,20 +48,16 @@ var countriesTable = {
 	[
 		{id: "name", header:"Name", name:"name", sort:"string", width:400},
 		{id: "icon", header:"Icon", name:"icon", sort:"string", width:100}
-	]
+	],
+	on: {
+		onItemSelect:function add_ ()
+		{
+
+		}
+	}
 };
 
-var countriesForm = {
-	view:"form",
-	id:"countriesForm",
-	cols: 
-	[
-		{ view:"text", label:"Title", name:"title", value:""},
-		{ view:"text", label:"Year", name:"year", value:"" },
-		{ view:"button", value:"Save" , type:"form", click:"save_form"},
-		{ view:"button", value:"Delete" , type:"form", click:"deleteitem"},
-	],
-}
+
 
 var statusesTable = {
 	view:"datatable", 
@@ -85,19 +86,3 @@ var datalayout  =
 };
 
 
-function save_form(){
-	var form = $$("countriesForm");
-		//if(form.isDirty())
-		//{
-
-			//if(!form.validate()) return false;
-			$$("countriesForm").save();
-		//};
-};
-
-function deleteitem(){
-			var sel = $$("countriesTable").getSelectedId();
-          	if(sel)
-          	datacountries.remove(sel);
-};
-};

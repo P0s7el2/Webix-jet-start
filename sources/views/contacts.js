@@ -46,8 +46,10 @@ const contact_data = {
   					on:{
   							OnItemClick:function (id){$$("contact_list").refresh("template","kk"); } // не работает рефреш...
   						}
+				},
+				{},
+				{ view:"button", value:"add", width:300, align:"center" }
 
-				}
 			]
 		},
 		{
@@ -60,9 +62,18 @@ const contact_data = {
 					[
 						{ view:"text", label:"User name", name:"user", value:""},
 						{ view:"text", label:"Email", name:"email", value:"" },
+
 					]
 				},
-				{ }
+				{ },
+				{
+					rows: [
+						{ view:"select", options:["1", "1.5", "2"], label:"Country"},
+            			{ view:"select", options:["1", "1.5", "2"], label:"Status" }
+            			]
+            	},
+            	{},
+            	{ view:"button", value:"Save", width:200, align:"center" }
 			]
 		}
 
