@@ -7,6 +7,17 @@ export const datacountries = new webix.DataCollection({ data:[
 	{ id:6, name:"12 Angry Men", icon:1957}
 ]});
 
+export function getData(id){
+	return datacountries.getItem(id);
+}
+
+export function setData(id, data){
+	if (!id)
+		datacountries.add(data);
+	else
+	datacountries.updateItem(id, data);
+}
+
 export const datastatuses = new webix.DataCollection({ data:[
 	{ id:1, short:"The Shawshank Redemption", full:1994},
 	{ id:2, short:"The Godfather", full:1972},

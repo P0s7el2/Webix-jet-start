@@ -1,25 +1,31 @@
 import {JetView} from "webix-jet";
 import {datacountries} from "models/records";
 import {datastatuses} from "models/records";
-import {DataViewForm} from "./DataViewForm";
+import DataViewForm from "views/data_form";
 
 export default class DataView extends JetView{
 
 
 	config(){
-		return datalayout ;
-	}
-	init(view){
-		$$("countriesTable").sync(datacountries);
-				//$$("countriesForm").bind($$("countriesTable")); //не работает
-		$$("StatusesTable").sync(datastatuses);
-		this.app.callEvent("do.update.form");
+	var countriesTable = {
+	view:"datatable", 
+	id:"countriesTable", 
+	select:true, 
+	autoConfig:true,
+	columns:
+	[
+		{id: "name", header:"Name", name:"name", sort:"string", width:400},
+		{id: "icon", header:"Icon", name:"icon", sort:"string", width:100}
+	],
+	on:{
 
-		})
-	}
-}
+		
+		onAfterSelect:function(id){ this.$scope.app.callEvent("dataSelected",  [id]) }
 
-var dataMenu = { 
+	}
+};
+
+	var dataMenu = { 
   css:"menu",
   rows:[ 
     { 
@@ -30,7 +36,7 @@ var dataMenu = {
       select:true,
       on:{
       	onAfterSelect:function(id){ 
-        	$$(id).show();
+        	$$(id).show(); 
         }
       },
       data:["Countries", "Statuses"]
@@ -39,42 +45,10 @@ var dataMenu = {
 };
 
 
-var countriesTable = {
-	view:"datatable", 
-	id:"countriesTable", 
-	select:true, 
-	autoConfig:true,
-	columns:
-	[
-		{id: "name", header:"Name", name:"name", sort:"string", width:400},
-		{id: "icon", header:"Icon", name:"icon", sort:"string", width:100}
-	],
-	on: {
-		onItemSelect:function add_ ()
-		{
-
-		}
-	}
-};
-
-
-
-var statusesTable = {
-	view:"datatable", 
-	id:"StatusesTable", 
-	select:true, 
-	autoConfig:true,
-	columns:
-	[
-		{id: "full", header:"Full name", name:"full", sort:"string", width:400},
-		{id: "short", header:"Short name", name:"short", sort:"string", width:100}
-	]
-};
-
 var datacells = {
   cells:[ 
-    { id:"Countries", rows:[countriesTable, countriesForm]},
-    { id:"Statuses", rows:[statusesTable]}
+    { id:"Countries", rows:[countriesTable, DataViewForm]}
+   // { id:"Statuses", rows:[statusesTable]}
   ]
 };
 
@@ -84,5 +58,20 @@ var datalayout  =
 	dataMenu, datacells
 	]
 };
+
+
+
+
+		return datalayout ;
+	}
+	init(view){
+
+		view.queryView({ view:"datatable" }).parse(datacountries);
+		//this.on($$("countriesTable"), "onAfterSelect", function(id){alert(id);} );
+		
+	}
+}
+
+
 
 

@@ -6,7 +6,7 @@ webix.ready(() => {
 		id:			APPNAME,
 		version:	VERSION,
 		start:		"/top/start",
-		debugger: true
+		debug: true
 	});
 	app.render();
 
